@@ -3,8 +3,7 @@
 % 
 % Authors: Mustafa Yücesan & Mohamed el Hadiyen
 % --------------------------------
-
-/*
+/**
  * Requirements
  * 
  * Minimal:
@@ -31,10 +30,9 @@
  * 		5) All the extra features are documented in the manual.
 . 
 . 
- * 
+ */ 
 
 . 
-
 /* Here a list of 5 conditions with their symptoms which will be the limit of our expert system.
  * 
  * Chronic Kidney Disease:
@@ -76,7 +74,6 @@
  * 		aching muscles (common with chickenpox)
  * 		chills (unique)
  * */
-kidney_disease() :- 
     
 
 prove(true) :- !.
