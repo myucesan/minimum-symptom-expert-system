@@ -3,7 +3,7 @@
 % 
 % Authors: Mustafa Yücesan & Mohamed el Hadiyen
 % --------------------------------
-/**
+/*
  * Requirements
  * 
  * Minimal:
@@ -28,11 +28,7 @@
  * 		3) More than two inference rules are present.
  * 		4) More than four queries are present, and the rationale per query is described.
  * 		5) All the extra features are documented in the manual.
-. 
-. 
  */ 
-
-. 
 /* Here a list of 5 conditions with their symptoms which will be the limit of our expert system.
  * 
  * Chronic Kidney Disease:
@@ -66,7 +62,7 @@
  * 		nausea (common)
  * 		vomiting (common with diarhoea)
  * 		diarrhoea (unique)
- * 		stomach cramps (common with food diarrhoea)
+ * 		stomach cramps (common with diarrhoea)
  * 		abdominal pain (unique)
  * 		lack of energy (unique)
  * 		loss of appetite (common with diarrhoea, chickenpox)
@@ -74,7 +70,87 @@
  * 		aching muscles (common with chickenpox)
  * 		chills (unique)
  * */
+
+/*
+ * 
+ * Query: What disease could I have with the following symptons? (Deze is echt alleen if. 
+ * Rules of inference: modus ponens) 
+ * 
+ * */
+
+/*
+has_nauseau(chronicKidneyDisease, chickenpox, coldSore, diarrhoea, foodPoisoining).
+has_tiredness(chronicKidneyDisease).
+has_swollen_body_parts(chronicKidneyDisease).
+has_shortness_of_breath(chronicKidneyDisease).
+has_blood_in_urine(chronicKidneyDisease). 
+has_red_rash(chickenpox).
+has_aching_muscles(chickenpox, foodPoisoning).
+has_headache(chickenpox, coldSore, diarrhoea).
+has_loss_of_appetite(chickenpox, diarrhoea, foodPoisoning).
+has_swollen_and_irritated_gums(coldSore).
+has_sore_throat_and_swollen_glands(coldSore).
+has_producing_more_saliva_than_normal(coldSore).
+has_high_temperature(coldSore, foodPoisoning).
+has_dehydration(coldSore).
+has_stomach_cramps(diarrhoea, foodPoisoning).
+has_vomiting(diarrhoea, foodPoisoning).
+has_diarrhoea(foodPoisoning).
+has_abdominal_pain(foodPoisoning).
+has_lack_of_energy(foodPoisoning).
+has_chills(foodPoisoning).
+*/
+
+// Food poisoning has following symptoms:
+symptom(foodPoisoning, nauseau).
+symptom(foodPoisoning, aching_muscles).
+symptom(foodPoisoning, loss_of_appetite).
+symptom(foodPoisoning, high_temperature).
+symptom(foodPoisoning, stomach_cramps).
+symptom(foodPoisoning, vomiting).
+symptom(foodPoisoning, diarrhoea).
+symptom(foodPoisoning, abdominal_pain).
+symptom(foodPoisoning, lack_of_energy).
+symptom(foodPoisoning, chills).
+
+// Chronic kidney disease has following symptoms:
+symptom(chronicKidneyDisease, nauseau).
+symptom(chronicKidneyDisease, tiredness).
+symptom(chronicKidneyDisease, swollen_body_parts).
+symptom(chronicKidneyDisease, shortness_of_breath).
+symptom(chronicKidneyDisease, blood_in_urine).
+symptom(chronicKidneyDisease, nauseau).
+
+// Chickenpox symptoms:
+symptom(chickenpox, nauseau).
+symptom(chickenpox, red_rash).
+symptom(chickenpox, aching_muscles).
+symptom(chickenpox, headache).
+symptom(chickenpox, loss_of_appetite).
+symptom(chickenpox, nauseau).
+
+// Cold sore symptoms:
+symptom(coldSore, nauseau).
+symptom(coldSore, headache).
+symptom(coldSore, swollen_and_irritated_gums).
+symptom(coldSore, sore_throat_and_swollen_glands).
+symptom(coldSore, producing_more_saliva_than_normal).
+symptom(coldSore, high_temperature).
+symptom(coldSore, dehydration).
+
+// diarrhoea symptoms:
+symptom(diarrhoea, nauseau).
+symptom(diarrhoea, headache).
+symptom(diarrhoea, loss_of_appetite).
+symptom(diarrhoea, stomach_cramps).
+symptom(diarrhoea, vomiting).
+
+food_poisoning() :-
     
+
+    
+
+
 
 prove(true) :- !.
 prove((B, Bs)) :- !,
@@ -102,9 +178,17 @@ askable(small(_)).
 askable(cuddly(_)).
 askable(has_feathers(_)).
 
+nauseau(hans).
+vomiting(mustafa).
+diarrhoea(mustafa).
+
+food_poisoning(X) :- nauseau(X), vomiting(X); diarrhoea(X).
+
 
 /** <examples>
 
 ?- prove(good_pet(tweety)).
+symptom(diarrhoea, Symptom).
+symptom(Disease, vomiting).
 
 */
