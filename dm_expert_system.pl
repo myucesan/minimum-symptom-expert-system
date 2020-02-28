@@ -7,7 +7,7 @@
  * Requirements
  * 
  * Minimal:
- * 		1) Based on Tweety but different domain.
+ * 		1) Based on Tweety but different domain. // CHECK
  * 		2) The four unique queries (using different rules) give the expected results. 
  * 		   These unique queries are asking at least four separate questions.
  * 		3) The program contains minimal two different rules of inference.
@@ -73,36 +73,38 @@
 
 /*
  * 
- * Query: What disease could I have with the following symptons? (Deze is echt alleen if. 
+ * Query: What disease could I have with the following symptoms? (Deze is echt alleen if. 
  * Rules of inference: modus ponens) 
  * 
  * */
 
-/*
-has_nauseau(chronicKidneyDisease, chickenpox, coldSore, diarrhoea, foodPoisoining).
-has_tiredness(chronicKidneyDisease).
-has_swollen_body_parts(chronicKidneyDisease).
-has_shortness_of_breath(chronicKidneyDisease).
-has_blood_in_urine(chronicKidneyDisease). 
-has_red_rash(chickenpox).
-has_aching_muscles(chickenpox, foodPoisoning).
-has_headache(chickenpox, coldSore, diarrhoea).
-has_loss_of_appetite(chickenpox, diarrhoea, foodPoisoning).
-has_swollen_and_irritated_gums(coldSore).
-has_sore_throat_and_swollen_glands(coldSore).
-has_producing_more_saliva_than_normal(coldSore).
-has_high_temperature(coldSore, foodPoisoning).
-has_dehydration(coldSore).
-has_stomach_cramps(diarrhoea, foodPoisoning).
-has_vomiting(diarrhoea, foodPoisoning).
-has_diarrhoea(foodPoisoning).
-has_abdominal_pain(foodPoisoning).
-has_lack_of_energy(foodPoisoning).
-has_chills(foodPoisoning).
-*/
+/*animal(dog)  :- is_true('has fur'), is_true('says woof').
+animal(cat)  :- is_true('has fur'), is_true('says meow').
+animal(duck) :- is_true('has feathers'), is_true('says quack').
 
-// Food poisoning has following symptoms:
-symptom(foodPoisoning, nauseau).
+is_true(Q) :-
+        format("~w?\n", [Q]),
+        read(yes).*/
+
+has_disease(X) :-
+    X == "Food poisoning",
+    food_poisoning.
+    
+	
+food_poisoning :-
+    has_symptom(nauseau),
+    has_symptom(aching_muscles),
+    has_symptom(loss_appetite).
+
+has_symptom(X) :-
+    format('Do you have the symptom ~w?\n', [X]),
+    read(yes).
+    
+
+
+/*
+% Food poisoning has following symptoms:
+symptom(foodPoisoning, nauseau).% Food poisoning has the symptom nauseau
 symptom(foodPoisoning, aching_muscles).
 symptom(foodPoisoning, loss_of_appetite).
 symptom(foodPoisoning, high_temperature).
@@ -113,7 +115,7 @@ symptom(foodPoisoning, abdominal_pain).
 symptom(foodPoisoning, lack_of_energy).
 symptom(foodPoisoning, chills).
 
-// Chronic kidney disease has following symptoms:
+% Chronic kidney disease has following symptoms:
 symptom(chronicKidneyDisease, nauseau).
 symptom(chronicKidneyDisease, tiredness).
 symptom(chronicKidneyDisease, swollen_body_parts).
@@ -121,15 +123,14 @@ symptom(chronicKidneyDisease, shortness_of_breath).
 symptom(chronicKidneyDisease, blood_in_urine).
 symptom(chronicKidneyDisease, nauseau).
 
-// Chickenpox symptoms:
+% Chickenpox symptoms:
 symptom(chickenpox, nauseau).
 symptom(chickenpox, red_rash).
 symptom(chickenpox, aching_muscles).
 symptom(chickenpox, headache).
 symptom(chickenpox, loss_of_appetite).
-symptom(chickenpox, nauseau).
 
-// Cold sore symptoms:
+% Cold sore symptoms:
 symptom(coldSore, nauseau).
 symptom(coldSore, headache).
 symptom(coldSore, swollen_and_irritated_gums).
@@ -138,57 +139,11 @@ symptom(coldSore, producing_more_saliva_than_normal).
 symptom(coldSore, high_temperature).
 symptom(coldSore, dehydration).
 
-// diarrhoea symptoms:
+% diarrhoea symptoms:
 symptom(diarrhoea, nauseau).
 symptom(diarrhoea, headache).
 symptom(diarrhoea, loss_of_appetite).
 symptom(diarrhoea, stomach_cramps).
 symptom(diarrhoea, vomiting).
-
-food_poisoning() :-
-    
-
-    
-
-
-
-prove(true) :- !.
-prove((B, Bs)) :- !,
-    prove(B),
-    prove(Bs).
-prove(H) :-
-    clause(H, B),
-    prove(B).
-prove(H) :-
-    askable(H),
-    writeln(H),
-    read(Answer),
-	Answer == yes.
-
-
-good_pet(X) :- bird(X), small(X).
-good_pet(X) :- cuddly(X), yellow(X).
-
-bird(X) :- has_feathers(X), tweets(X).
-
-yellow(tweety).
-
-askable(tweets(_)).
-askable(small(_)).
-askable(cuddly(_)).
-askable(has_feathers(_)).
-
-nauseau(hans).
-vomiting(mustafa).
-diarrhoea(mustafa).
-
-food_poisoning(X) :- nauseau(X), vomiting(X); diarrhoea(X).
-
-
-/** <examples>
-
-?- prove(good_pet(tweety)).
-symptom(diarrhoea, Symptom).
-symptom(Disease, vomiting).
 
 */
