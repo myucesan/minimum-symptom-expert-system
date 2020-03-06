@@ -70,7 +70,7 @@
  */
 
 has_disease(X) :-
-    ask_about_disease(X), forall(has_symptom(disease(X), _, _), true).
+    ask_about_disease(X), true.
 
 /*
  * Question 2: Does disease Y contain a common symptom that occurs 
@@ -100,7 +100,8 @@ does_disease_contain_very_common_symptom(Y) :-
  * is being checked as a symptom in has_symptom), Conjunction is being used.
  */
 
-can_disease_lead_to_another(Y) :-   
+can_disease_lead_to_another(Y) :-
+    disease(Y),
     has_symptom(disease(X), Y, _), % Checks if disease Y is a symptom of any disease
     format("~w can lead to ~w\n", [Y, X]). % If yes, output that disease.
 
@@ -125,14 +126,9 @@ which_disease_likely(X, Y) :-
  * Question 5: Query for potential medicine for a disease
  * X can be: "Food poisoning", "Chronic kidney disease", 
  * "Cold sore", "Chickenpox", or "Diarrhoea".
- * 
- * Als er een medicijn is, dan is er een ziekte
- * Er is geen ziekte
- * Dan is er geen medicijn
  */
 
 check_medicine_for_disease(X):-
-    ask_for_disease(X),
     has_medicine(disease(X), Y),
     format('You can use the following medicine: ~w\n', [Y]).
 
@@ -194,13 +190,6 @@ ask_for_symptom(X) :-
     read(yes). 
 
 /*
- * Asks if user has a certain disease.
- * */
-ask_for_disease(X):- 
-    format('Do you have the disease: ~w?\n', [X]),
-    read(yes).
-
-/*
  * Asks if a disease has another disease as a symptom
  * 
  * 
@@ -256,14 +245,14 @@ has_symptom(disease("Diarrhoea"), "Loss of appetite", "common").
 has_symptom(disease("Diarrhoea"), "Stomach crumps", "common").
 has_symptom(disease("Diarrhoea"), "Vomitting", "common").
 
-has_medicine(disease("Chickenpox"), "acyclovir").
-has_medicine(disease("Food poisoning"), "antibiotics").
+has_medicine(disease("Chickenpox"), "Acyclovir").
+has_medicine(disease("Food poisoning"), "Antibiotics").
 has_medicine(disease("Chronic kidney disease"), "Anti-hypertensives").
 has_medicine(disease("Chronic kidney disease"), "Diuretics").
 has_medicine(disease("Chronic kidney disease"), "Erythropoietin").
 has_medicine(disease("Chronic kidney disease"), "Vitamin D").
-has_medicine(disease("Cold sore"), "valacyclovir").
-has_medicine(disease("Cold sore"), "famciclovir").
-has_medicine(disease("Cold sore"), "acyclovir").
-has_medicine(disease("Diarrhoea"), "loperamide").
-has_medicine(disease("Diarrhoea"), "bismuth subsalicylate").
+has_medicine(disease("Cold sore"), "Valacyclovir").
+has_medicine(disease("Cold sore"), "Famciclovir").
+has_medicine(disease("Cold sore"), "Acyclovir").
+has_medicine(disease("Diarrhoea"), "Loperamide").
+has_medicine(disease("Diarrhoea"), "Bismuth subsalicylate").
